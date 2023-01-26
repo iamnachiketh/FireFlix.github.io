@@ -17,7 +17,7 @@ function PlansScreen({emailReg}) {
    console.log(plan)
   
    const callapi = ()=>{
-    console.log('hello its in side fetch api');
+    console.log('hello its in side fetch api of planscreen');
      fetch('http://localhost:3001/user/subscribe', { method: 'POST',
 
     headers: {
@@ -38,13 +38,13 @@ function PlansScreen({emailReg}) {
 
   if (pay1||pay2||pay3){
     if(pay1){
-      return <Payment amount={'$10.99'} />
+      return <Payment amount={'$10.99'} email={email}/>
     }
     if (pay2){
-      return <Payment amount={'$18.79'} />
+      return <Payment amount={'$18.79'} email={email}/>
     }
     if(pay3){
-      return <Payment amount={'$24.53'} />
+      return <Payment amount={'$24.53'} email={email} />
     }
   }
   else{
