@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+.Login{
+position: relative;
+height:100%;
+ background-image: url("https://i.postimg.cc/nrbD47XZ/Fire-Flix-Background.png");/* https://i.postimg.cc/nrbD47XZ/Fire-Flix-Background.png */
+background-repeat: no-repeat;
+background-size: cover;
+object-fit: contain;
+overflow: hidden;
+}
+.logo_grad{
+    width:100%;
+    z-index: 1;
+    height: 100vh;
+    background-image: linear-gradient(
+        to top,
+        rgba(0,0,0,0.8)0,
+        rgba(0,0,0,0)40%,
+        rgba(0,0,0,0.9)111%
+    );
+}
+.login__body{
+    position: absolute;
+    top: 26%;
+    z-index: 1;
+    color:white;
+    padding: 10px;
+    margin-left: 300px;
+    margin-bottom: 90px;
+}
+.login__body> h1{
+    font-size: 3rem;
+    margin-bottom: 13px;
+    padding:0;
+}
+.login__body> h2{
+    margin-left: 235px;
+    font-size: 1.7rem;
+    font-weight: 400;
+}
+.login__body> h3{
+    margin-left: 220px;
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+.login__screenlogo{
+    position: fixed;
+    left: 0;
+    width: 160px;
+    object-fit: contain;
+    padding-left: 17px;
+    text-decoration: none;
+    /* font-weight: 700; */
+    margin-top: -25px;
+    height:120px ;
+}
+
+.login__button{
+    cursor:pointer;
+    position: fixed;
+    right:28px;
+    top:32px;
+    color: white;
+    background-color: red;
+    border:none;
+    font-size: 1.5rem;
+    padding:5px;
+    font-family: 'Poor Story', cursive;
+    font-weight: 900;
+}
+
+.login__button1{
+    cursor: pointer;
+    position: fixed;
+    right:101px;
+    top:32px;
+    color:white;
+    background-color: red;
+    font-size: 1.5rem;
+    padding: 5px;
+    border:none;
+    font-family: 'Poor Story', cursive;
+    font-weight: 900;
+}
+
+.heading{
+    font-family: 'Poor Story', cursive;
+    margin-left: 100px;
+    font-weight: bolder;
+}
+

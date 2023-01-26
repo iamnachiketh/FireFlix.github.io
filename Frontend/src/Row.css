@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+.Row{
+    color:white;
+    margin-left: 20px;
+}
+.Row__posters{
+    display:flex;
+    overflow-y: hidden;
+    overflow-x:scroll;
+    overscroll-behavior: smooth;
+    padding: 20px;
+}
+
+.Row__posters::-webkit-scrollbar{
+    display: none;
+}
+.Row__poster{
+max-height: 130px;
+object-fit: contain;
+margin-right: 20px;
+width:100%;
+transition: transform 450ms;
+border-radius: 1vw;
+
+}
+
+.Row__poster:hover{
+    transform:scale(1.2);
+    opacity: 1;
+}
+
+.Row__posterlarge{
+    max-height: 250px;
+}
+.title__font{
+    font-family: 'Poor Story', cursive;
+}

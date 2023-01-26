@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap');
+.prof__logo{
+    position: fixed;
+    left: 0;
+    width: 160px;
+    object-fit: contain;
+    padding-left: 17px;
+    text-decoration: none;
+    /* font-weight: 700; */
+    margin-top: -19px;
+}
+.prof__avatar{
+
+    /* cursor:pointer;  */
+    position:fixed;
+    right:20px;
+    width:50px;
+    margin-top:28px;
+}
+.profile__body{
+    margin-top: -21px;
+}
+.profileScreen{
+
+    height:100vh;
+    color:white;
+}
+.profile__body{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 8%;
+    max-width: 800px;
+}
+.Profile__info{
+    display: flex;
+}
+.profile__body>h1{
+      font-size: 60px;
+      font-weight: 400;
+      border-bottom: 1px solid black;
+      margin-bottom: 10px;
+      font-family: 'Poor Story', cursive;
+}
+.Profile__info>img{
+   height:100px;
+}
+.profile__details{
+   margin-left: 20px;
+   flex: 1; 
+   color:white
+}
+.profile__details>h1{
+ background-color: gray;
+ padding: 15px;
+ font-size: 15px;
+ padding-left: 20px;
+}
+.profile__signout{
+    padding: 5px 5px;
+    font-size: 1rem;
+    margin-top: 5%;
+    width:100%;
+    color:#ffff;
+    background-color: #e50914;
+    font-family: 'Poor Story', cursive;
+    font-weight: 600;
+    cursor:pointer;
+}
+.profile__plans >h3{
+    border-bottom: 1px solid #282c2d;
+    padding-bottom: 5px;
+}
