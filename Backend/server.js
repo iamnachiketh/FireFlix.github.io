@@ -3,9 +3,26 @@ const app = express();
 const  db=require('./db/connect.js');
 const cors=require('cors');
 const Joi= require('joi');
+const bodyParser = require('body-parser');
+const Session = require('express-session');
+const  cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 app.use(express.json());
-app.use(cors({origin: true, credentials: true}));
+app.use(cors({origin: true, credentials: true, methods:["GET","POST"]}));
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended:true}));
+
+app.use(session({
+      key:"email",
+      secret:"NACHIKETH",
+      resave: false,
+      saveUninitialized:false,
+      cookie: {
+       expries: 60 * 60 * 24 
+      },
+}));
 
 app.post('/register',(req,res)=>{
     const email=req.body.email;
@@ -35,23 +52,32 @@ app.post('/register',(req,res)=>{
         }
     });
 })
+
+app.get('/session', (req,res)=>{
+     
+    
+
+});
+
 app.get('/login',(req,res)=>{
-    // console.log(req.body.email,req.body.userpassword);
+    
     const email=req.body.email;
     const userpassword=req.body.userpassword;
-    //console.log(req.body.userpassword);
-    // db.query(`SELECT * FROM users WHERE email=${req.body.email}`,(err,ans)=>{
+    console.log(email);
+    console.log(userpassword);
+   
     db.query(`SELECT * FROM users WHERE email ='${email}' AND userpassword ='${userpassword}'`,(err,ans)=>{
-    //    console.log(err)
-    //    console.log(result);
+    
         if(err){
          res.send("there is been a error!!");
         }
     //console.log(typeof result);
-    console.log(Object.keys(ans).length);
-    console.log(ans);
+    //console.log(Object.keys(ans).length);
+    //console.log(ans);
         if(Object.keys(ans).length)
         {
+            req.session.user = ans ;
+            console.log("this is req session answer!!!",req.session.user);
            res.status(200).send(ans);
         }else{
             res.status(401).send('error !!');
@@ -123,7 +149,7 @@ app.post('/user/payment',(req,res)=>{
     const email=req.body.email;
     console.log(payment_type);
     console.log(email);
-    db.query("insert into payment (email,payment_type,payment_name) values (?,?,?)",[email,payment_type,'check'],(err,ans)=>{
+    db.query("insert into payment (email,payment_type,payment_name) values (?,?,?)",[email,payment_type,'check'],(err,_ans)=>{
         if(err){
          res.send("there is been a error!!");
         }
