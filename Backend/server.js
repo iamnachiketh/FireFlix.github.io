@@ -66,7 +66,7 @@ app.get('/login',(req,res)=>{
     console.log(email);
     console.log(userpassword);
    
-    db.query(`SELECT * FROM users WHERE email ='${email}' AND userpassword ='${userpassword}'`,(err,ans)=>{
+    db.query(`SELECT * FROM users WHERE email =${email} AND userpassword =${userpassword}`,(err,ans)=>{
     
         if(err){
          res.send("there is been a error!!");
@@ -84,6 +84,7 @@ app.get('/login',(req,res)=>{
         }
     });
 })
+
 
 //Subscription APIs
 //1 - Get user subscription
