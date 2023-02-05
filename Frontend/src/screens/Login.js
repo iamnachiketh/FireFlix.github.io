@@ -1,4 +1,4 @@
-import React ,{useState}from 'react'
+import React ,{useState , useEffect}from 'react'
 import {  useNavigate } from 'react-router-dom';
 import AddProfilescreen from './AddProfilescreen';
 import "./Login.css";
@@ -7,12 +7,21 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import Axios from "axios"; 
 
 function Login(props) {
 
 const [Signin,setSignin]=useState(false)
 const navigate=useNavigate();
 const [signup,setSignup]=useState(false);
+
+Axios.defaults.withCredentials = true ; 
+
+useEffect(()=>{
+  Axios.get("http://localhost:3001/login").then((response)=>{
+  console.log(response); 
+})},[]);
+
   return (
     <div className="Login">
       <div className="login__background">

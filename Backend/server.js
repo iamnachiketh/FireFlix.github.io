@@ -4,12 +4,11 @@ const  db=require('./db/connect.js');
 const cors=require('cors');
 const Joi= require('joi');
 const bodyParser = require('body-parser');
-const Session = require('express-session');
-const  cookieParser = require('cookie-parser');
 const session = require('express-session');
+const  cookieParser = require('cookie-parser');
 
 app.use(express.json());
-app.use(cors({origin: true, credentials: true, methods:["GET","POST"]}));
+app.use(cors({origin: ["http://localhost:3000"], credentials: true, methods:["GET","POST"]}));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -20,7 +19,8 @@ app.use(session({
       resave: false,
       saveUninitialized:false,
       cookie: {
-       expries: 60 * 60 * 24 
+       maxAge: 60 * 60 * 24 * 1000
+
       },
 }));
 
@@ -53,20 +53,24 @@ app.post('/register',(req,res)=>{
     });
 })
 
-app.get('/session', (req,res)=>{
-     
-    
-
-});
-
 app.get('/login',(req,res)=>{
+
+     console.log('this req.session',req.sessionID);
+    if(req.session.user){
+         res.send({loggedIn:true , user: req.session.user , Name:username })
+    }else{
+        res.send({loggedIn:false})
+    }
+})
+
+app.post('/login',(req,res)=>{
     
-    const email=req.body.email;
-    const userpassword=req.body.userpassword;
-    console.log(email);
-    console.log(userpassword);
+    const email = req.body.email;
+    const userpassword = req.body.userpassword;
+   // console.log(email);
+    //console.log(userpassword);
    
-    db.query(`SELECT * FROM users WHERE email =${email} AND userpassword =${userpassword}`,(err,ans)=>{
+    db.query(`SELECT * FROM users WHERE email ='${email}' AND userpassword = '${userpassword}'`,(err,ans)=>{
     
         if(err){
          res.send("there is been a error!!");
@@ -76,11 +80,14 @@ app.get('/login',(req,res)=>{
     //console.log(ans);
         if(Object.keys(ans).length)
         {
-            req.session.user = ans ;
-            console.log("this is req session answer!!!",req.session.user);
+            req.session.user = ans;
+            console.log('this is post login',req.session);
+            req.session.save()
+            console.log('this is session id',req.sessionID);
+            //console.log("this is req session answer!!!", req.session.user);
            res.status(200).send(ans);
         }else{
-            res.status(401).send('error !!');
+            res.status(401).send('error!!!');
         }
     });
 })

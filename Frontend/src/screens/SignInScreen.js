@@ -1,9 +1,9 @@
-import React,{useEffect, useState} from 'react'
+import React,{useState} from 'react'
 import "./SignInScreen.css";
 import { userAction } from "../features/userSlice";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Axios from "axios";
+
 function SignInScreen() {
 
   const [email,setEmail]=useState("");
@@ -17,11 +17,9 @@ function SignInScreen() {
     return false
  }
 
- Axios.defaults.withCredentials = true;
- 
    const callapi = async ()=>{
 
-    console.log('hello',({email:email,password:userpassword}));
+    console.log({email:email,password:userpassword});
    await fetch('http://localhost:3001/login', { method: 'POST',
     headers: {
       'Content-Type':
@@ -43,11 +41,6 @@ function SignInScreen() {
           })
   }
  
-  useEffect(()=>{
-    Axios.get("http://localhost:3001/session").then((response)=>{
-    console.log(response); 
-})},[]);
-
   return (
     <div className="SignupScreen">
     <form onSubmit={upvote}>
