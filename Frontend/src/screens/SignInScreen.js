@@ -19,7 +19,6 @@ function SignInScreen() {
 
    const callapi = async ()=>{
 
-    console.log({email:email,password:userpassword});
    await fetch('http://localhost:3001/login', { method: 'POST',
     headers: {
       'Content-Type':

@@ -5,89 +5,86 @@ const cors=require('cors');
 const Joi= require('joi');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const  cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const cookieParser = require('cookie-parser')
+
+
+
+
 
 app.use(express.json());
-app.use(cors({origin: ["http://localhost:3000"], credentials: true, methods:["GET","POST"]}));
+app.use(cors({
+    origin : "*",
+    methods:["GET" , "POST"],
+    credentials:true
+}));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(session({
-      key:"email",
+      key:"userId",
       secret:"NACHIKETH",
       resave: false,
       saveUninitialized:false,
-      cookie: {
-       maxAge: 60 * 60 * 24 * 1000
-
-      },
+      cookie:{
+        expires:60
+      }
 }));
 
-app.post('/register',(req,res)=>{
+app.post('/register',async (req,res)=>{
     const email=req.body.email;
     const username=req.body.username;
-    const userpassword=req.body.userpassword;
-    //const phone_number = req.body.phonenumber;
-    const schema = Joi.object({
-        email: Joi.string().email({tlds:{allow: ['com', 'net'] }}).lowercase().required(),
-        userpassword: Joi.string().min(5).pattern(new RegExp('^[a-zA-Z0-9]')).required()
-    })
-    try{
-     const result= schema.validate({email,userpassword});
-    } catch(error){
-         error.status(422).send('There is something wrong with email and password');
-         console.log('hello');
-         return;
-    }
+    let userpassword=req.body.userpassword;
 
-    //console.log(phone_number)
-    db.query("INSERT INTO users (username,userpassword,email) VALUES (?,?,?)",[username,userpassword,email],(err,result)=>{
-    //    console.log(err)
-    //    console.log(result);
+     bcrypt.hash(userpassword,saltRounds,(err, hash)=>{
+
         if(err){
-         res.send("connection failed !" + JSON.stringify(err,undefined,2));
-        }else{
-           res.send(result);
+            res.json({"Error message": err});
         }
+        userpassword = hash;
+
+        db.query("INSERT INTO users (username,userpassword,email) VALUES (?,?,?)",[username,userpassword,email],(err,result1)=>{
+           
+                if(err){
+                 res.send(err);
+                }else{
+                   res.send(result1);
+                }
+            });
+
     });
+
 })
 
-app.get('/login',(req,res)=>{
-
-     console.log('this req.session',req.sessionID);
-    if(req.session.user){
-         res.send({loggedIn:true , user: req.session.user , Name:username })
-    }else{
-        res.send({loggedIn:false})
-    }
-})
 
 app.post('/login',(req,res)=>{
     
     const email = req.body.email;
     const userpassword = req.body.userpassword;
-   // console.log(email);
-    //console.log(userpassword);
-   
-    db.query(`SELECT * FROM users WHERE email ='${email}' AND userpassword = '${userpassword}'`,(err,ans)=>{
+     
+     db.query(`SELECT * FROM users WHERE email ='${email}'`,(err,ans)=>{
     
         if(err){
-         res.send("there is been a error!!");
+         res.send({"there is been a error!!":err});
         }
-    //console.log(typeof result);
-    //console.log(Object.keys(ans).length);
-    //console.log(ans);
+   
         if(Object.keys(ans).length)
         {
-            req.session.user = ans;
-            console.log('this is post login',req.session);
-            req.session.save()
-            console.log('this is session id',req.sessionID);
-            //console.log("this is req session answer!!!", req.session.user);
-           res.status(200).send(ans);
+            bcrypt.compare(userpassword,ans[0].userpassword,(error,isValid)=>{
+            if(isValid){
+                console.log(req.session);
+                res.send(isValid);
+            }else{
+
+                res.json({"message":"Wrong password and username combination!!!"});
+            }
+            })
         }else{
-            res.status(401).send('error!!!');
+
+            res.status(401).send({"message":"User dosent exists"}); 
         }
     });
 })

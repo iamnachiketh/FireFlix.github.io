@@ -15,12 +15,6 @@ const [Signin,setSignin]=useState(false)
 const navigate=useNavigate();
 const [signup,setSignup]=useState(false);
 
-Axios.defaults.withCredentials = true ; 
-
-useEffect(()=>{
-  Axios.get("http://localhost:3001/login").then((response)=>{
-  console.log(response); 
-})},[]);
 
   return (
     <div className="Login">
